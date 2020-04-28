@@ -72,114 +72,58 @@ func testEncodingDistance() throws {
     print(String(data: feetData, encoding: .utf8)!)
 }
 
+print("\n")
+
 try testEncodingDistance()
 
+print("\n")
+
 // Tree Traversal
-class Node<T: Hashable>: Hashable {
-    
-    static func == (lhs: Node<T>, rhs: Node<T>) -> Bool {
-        return lhs.value == rhs.value
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(value)
-    }
-    
-    var value: T
-    // these would probably be used for a node in a tree
-    var left: Node?
-    var right: Node?
-    // this would probably be used in a node in a graph with an adjacentcy table
-    var adjacent: [Node<T>] = [Node<T>]()
-    var visited = false
-    init(value: T) {
-        self.value = value
-    }
-}
 
-func visit<T>(node: Node<T>) {
-    node.visited = true
-    print(node.value)
-}
+let node = Tree.arrayToTree(items: [0, 1, 2, 3, 5, 8, 13, 21])!
+let tree = Tree(rootNode: node)
 
-// In-Order Traversal
-func inOrderTraversal<T>(node: Node<T>) {
-    if let left = node.left { inOrderTraversal(node: left) }
-    visit(node: node)
-    if let right = node.right { inOrderTraversal(node: right) }
-}
+tree.inOrderTraversal()
 
-// Pre-Order Traversal
-func preOrderTraversal<T>(node: Node<T>) {
-    visit(node: node)
-    if let left = node.left { preOrderTraversal(node: left) }
-    if let right = node.right { preOrderTraversal(node: right) }
-}
+print("\n")
 
-// Post-Order Traversal
-func postOrderTraversal<T>(node: Node<T>) {
-    if let left = node.left { preOrderTraversal(node: left) }
-    if let right = node.right { preOrderTraversal(node: right) }
-    visit(node: node)
-}
+tree.preOrderTraversal()
 
-// Creating a tree
+print("\n")
 
-func createNode(integers: [Int], index: Int) -> Node<Int>? {
-    guard index < integers.count else {
-        return nil
-    }
-    let value = integers[index]
-    let node = Node(value: value)
-    node.left = createNode(integers: integers, index: (index * 2) + 1)
-    node.right = createNode(integers: integers, index: (index == 0 ? 2 : (index * 2)))
-    return node
-}
+tree.postOrderTraversal()
 
-func arrayToTree(integers: [Int]) -> Node<Int>? {
-    let rootNode = createNode(integers: integers, index: 0)
-    return rootNode
-}
-
-//let values = [0, 1, 2, 3, 5, 8, 13, 21]
-//let tree = arrayToTree(integers: values)
-
-//inOrderTraversal(node: tree!)
-
-//preOrderTraversal(node: tree!)
-
-//postOrderTraversal(node: tree!)
-
+// Graph Traversal
 // Searching a Graph depth first
 
-func depthFirstSearch<T>(root: Node<T>) {
-    visit(node: root)
-    root.adjacent.forEach { (node) in
-        if !node.visited {
-            visit(node: node)
-        }
-    }
-}
-
-// Searching a graph breadth first
-//    uses a hacky queue but should work for sample code
-
-func breadthFirstSearch<T>(root: Node<T>)  {
-    var queue = [Node<T>]()
-    root.visited = true
-    queue.append(root)
-
-    while !queue.isEmpty {
-        let node = queue.remove(at: 0)
-        visit(node: node)
-        node.adjacent.forEach { (child) in
-            if !child.visited {
-                visit(node: child)
-                queue.append(child)
-            }
-        }
-    }
-}
+//func depthFirstSearch<T>(root: Node<T>) {
+//    visit(node: root)
+//    root.adjacent.forEach { (node) in
+//        if !node.visited {
+//            visit(node: node)
+//        }
+//    }
+//}
+//
+//// Searching a graph breadth first
+////    uses a hacky queue but should work for sample code
+//
+//func breadthFirstSearch<T>(root: Node<T>)  {
+//    var queue = [Node<T>]()
+//    root.visited = true
+//    queue.append(root)
+//
+//    while !queue.isEmpty {
+//        let node = queue.remove(at: 0)
+//        visit(node: node)
+//        node.adjacent.forEach { (child) in
+//            if !child.visited {
+//                visit(node: child)
+//                queue.append(child)
+//            }
+//        }
+//    }
+//}
 
 // Binary Search
 
@@ -418,48 +362,48 @@ func generalizedGCD(num:Int, arr:[Int]) -> Int
 
 // Example of an enum being used as a union
 
-enum Number {
-    case a(Int)
-    case b(Double)
-
-    var a:Int{
-        switch(self)
-        {
-        case .a(let intval): return intval
-        case .b(let doubleValue): return Int(doubleValue)
-        }
-    }
-
-    var b:Double{
-        switch(self)
-        {
-        case .a(let intval): return Double(intval)
-        case .b(let doubleValue): return doubleValue
-        }
-    }
-}
+//enum Number {
+//    case a(Int)
+//    case b(Double)
+//
+//    var a:Int{
+//        switch(self)
+//        {
+//        case .a(let intval): return intval
+//        case .b(let doubleValue): return Int(doubleValue)
+//        }
+//    }
+//
+//    var b:Double{
+//        switch(self)
+//        {
+//        case .a(let intval): return Double(intval)
+//        case .b(let doubleValue): return doubleValue
+//        }
+//    }
+//}
 //let num = Number.b(5.078)
 //
 //println(num.a)  // output 5
 //println(num.b)  // output 5.078
-
+//
 // Bidirectional search
 //class bidirectionalSearch {
-//    
+//
 //    static func pathExists<T>(nodeA: Node<T>, nodeB: Node<T>) -> Bool {
-//        
+//
 //        var queueA = Queue<Node<T>>()
 //        var queueB = Queue<Node<T>>()
-//        
+//
 //        var visitedA: Set<Node<T>> = Set<Node<T>>()
 //        var visitedB: Set<Node<T>> = Set<Node<T>>()
-//        
+//
 //        visitedA.insert(nodeA)
 //        visitedB.insert(nodeB)
-//        
+//
 //        queueA.add(item: nodeA)
 //        queueB.add(item: nodeB)
-//        
+//
 //        while !queueA.isEmpty() || !queueB.isEmpty() {
 //            if pathExistsHelper(queue: &queueA,
 //                                visitedFromThisSide: visitedA,
@@ -471,11 +415,11 @@ enum Number {
 //            }
 //        }
 //    }
-//    
+//
 //    private static func pathExistsHelper<T>(queue: inout Queue<Node<T>>,
 //        visitedFromThisSide: Set<Node<T>>,
 //        visitedFromThatSide: Set<Node<T>>) -> Bool {
-//        
+//
 //        if !queue.isEmpty() {
 //            let next = queue.remove()
 //            let adjacentNodes: Set<Node<T>> = next?.adjacent
