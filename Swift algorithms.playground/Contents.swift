@@ -26,8 +26,9 @@ print(RecersivePrograming.fibinachiWithMemory(i: 2))
 print(RecersivePrograming.fibinachiBottomUp(i: 3))
 print("\(RecersivePrograming.fibinachiBottomUpNoMemo(i: 4))\n")
 
-print(RecersivePrograming.stepCombos(n: 20))
+print(RecersivePrograming.stepCombos(n: 5))
 
+// Test using result types
 func testResultTypes() {
     for _ in 0...5 {
         let result = ResultTests.randomEvennumber()
@@ -40,77 +41,25 @@ func testResultTypes() {
     }
 }
 
-func jsonEncodeDecode() throws {
-    // Encoding to JSON
-    let myType = MyType.justinType()
-    let encoder = JSONEncoder()
-    let data = try encoder.encode(myType)
-
-    print(String(data: data, encoding: .utf8)!)
-
-    // Decoding from JSON
-    let decoder = JSONDecoder()
-    let decodedMyType = try decoder.decode(MyType.self, from: data)
-    dump(decodedMyType)
-}
-
-func xmlPlistEncodeDecode() throws {
-    // Encoding to Plist
-    let myType = MyType.justinType()
-    let encoder = PropertyListEncoder()
-    encoder.outputFormat = .xml
-    let data = try encoder.encode(myType)
-
-    print(String(data: data, encoding: .utf8)!)
-
-    // Decoding Plist
-    let decoder = PropertyListDecoder()
-    let decodedMyType = try decoder.decode(MyType.self, from: data)
-    dump(decodedMyType)
-}
-
-try jsonEncodeDecode()
+testResultTypes()
 print("\n")
-try xmlPlistEncodeDecode()
 
-// Using Serialization for polymorphisum
+let justinItem = MyType.justinType()
+let json = try! justinItem.jsonEncode()
+print("\(String(data: json, encoding: .utf8)!)\n")
 
-protocol Length {}
-struct Feet: Length {}
-struct Meters: Length {}
+let newJustinItem = try MyType.jsonDecode(data: json)
+dump(newJustinItem)
+print("\n")
 
-struct Distance<Units: Length>: Codable, Equatable, ExpressibleByFloatLiteral {
-    var value: Double
+let xmlItem = try! newJustinItem.xmlPlistEncode()
+print(String(data: xmlItem, encoding: .utf8)!)
+let itemFromPlist = try! MyType.xmlPlistDecoder(data: xmlItem)
+dump(itemFromPlist)
+print("\n")
 
-    static var unitType: String {
-        String(describing: Units.self).lowercased()
-    }
 
-    struct UnitsKey: CodingKey {
-        var stringValue: String
 
-        init?(stringValue: String) {
-            self.stringValue = stringValue
-        }
-        var intValue: Int? { fatalError() }
-
-        init?(intValue: Int) { fatalError() }
-    }
-
-    init(floatLiteral value: FloatLiteralType) {
-        self.value = value
-    }
-
-    init(from decoder: Decoder) throws {
-        let continer = try decoder.container(keyedBy: UnitsKey.self)
-        self.value = try continer.decode(Double.self, forKey: UnitsKey(stringValue: Distance.unitType)!)
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: UnitsKey.self)
-        try container.encode(value, forKey: UnitsKey(stringValue: Distance.unitType)!)
-    }
-}
 
 func testEncodingDistance() throws {
     let meters: [Distance<Meters>] = [5.0, 6.0 , 7.5, 8.25]
@@ -121,14 +70,9 @@ func testEncodingDistance() throws {
 
     print(String(data: meterData, encoding: .utf8)!)
     print(String(data: feetData, encoding: .utf8)!)
-
-    let decoder = JSONDecoder()
-    dump(try decoder.decode([Distance<Feet>].self, from: feetData))
-    dump(try decoder.decode([Distance<Meters>].self, from: meterData))
 }
 
-//try testEncodingDistance()
-
+try testEncodingDistance()
 
 // Tree Traversal
 class Node<T: Hashable>: Hashable {
