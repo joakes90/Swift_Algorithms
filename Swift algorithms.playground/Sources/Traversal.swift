@@ -98,8 +98,12 @@ public class Graph<T: Hashable> {
     }
     
     // Searching a graph depth first
-    func depthFirstSearch<T>(node: Node<T>) {
-        node.visit()
+    public func depthFirstSearch() {
+        depthFirstSearch(root: root)
+    }
+    
+    private func depthFirstSearch<T>(root: Node<T>) {
+        root.visit()
         root.adjacent.forEach { (node) in
             if !node.visited {
                 node.visit()
@@ -108,7 +112,10 @@ public class Graph<T: Hashable> {
     }
     
     // Searching a graph breadth first
-    func breadthFirstSearch<T>(root: Node<T>)  {
+    public func breadthFirstSearch() {
+        breadthFirstSearch(root: root)
+    }
+    private func breadthFirstSearch<T>(root: Node<T>)  {
         var queue = [Node<T>]()
         queue.append(root)
     
@@ -122,5 +129,23 @@ public class Graph<T: Hashable> {
                 }
             }
         }
+    }
+    
+    // Creating a graph for testing
+        // This is a pretty mediocre graph
+    static func createNode(items: [T]) -> Node<T> {
+        let value = items.first!
+        let root = Node(value: value)
+        for i in 1..<items.count {
+            let item = items[i]
+            let child = Node(value: item)
+            root.adjacent.append(child)
+        }
+        return root
+    }
+
+    public static func arrayToGraph(items: [T]) -> Graph {
+        let rootNode = createNode(items: items)
+        return Graph(root: rootNode)
     }
 }

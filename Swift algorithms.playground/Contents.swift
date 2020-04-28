@@ -80,8 +80,8 @@ print("\n")
 
 // Tree Traversal
 
-let node = Tree.arrayToTree(items: [0, 1, 2, 3, 5, 8, 13, 21])!
-let tree = Tree(rootNode: node)
+let treeNode = Tree.arrayToTree(items: [0, 1, 2, 3, 5, 8, 13, 21])!
+let tree = Tree(rootNode: treeNode)
 
 tree.inOrderTraversal()
 
@@ -93,6 +93,16 @@ print("\n")
 
 tree.postOrderTraversal()
 
+// Graph Traversal
+let graph = Graph.arrayToGraph(items: [0, 2, 4, 6, 8, 10])
+
+graph.depthFirstSearch()
+
+print("\n")
+
+graph.breadthFirstSearch()
+
+print("\n")
 
 // Binary Search
 
