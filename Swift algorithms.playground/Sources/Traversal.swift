@@ -16,7 +16,7 @@ public class Node<T: Hashable>: Hashable {
     var left: Node?
     var right: Node?
     // This would probably be used in a node in a graph with an adjacentcy table
-    var adjacent: [Node<T>] = [Node<T>]()
+    public var adjacent: [Node<T>] = [Node<T>]()
     var visited = false
     init(value: T) {
         self.value = value
@@ -91,7 +91,7 @@ public class Tree<T: Hashable> {
 // Depth first
 public class Graph<T: Hashable> {
  
-    let root: Node<T>
+    public let root: Node<T>
     
     public init(root: Node<T>) {
         self.root = root
