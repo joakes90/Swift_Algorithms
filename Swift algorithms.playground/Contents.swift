@@ -93,37 +93,6 @@ print("\n")
 
 tree.postOrderTraversal()
 
-// Graph Traversal
-// Searching a Graph depth first
-
-//func depthFirstSearch<T>(root: Node<T>) {
-//    visit(node: root)
-//    root.adjacent.forEach { (node) in
-//        if !node.visited {
-//            visit(node: node)
-//        }
-//    }
-//}
-//
-//// Searching a graph breadth first
-////    uses a hacky queue but should work for sample code
-//
-//func breadthFirstSearch<T>(root: Node<T>)  {
-//    var queue = [Node<T>]()
-//    root.visited = true
-//    queue.append(root)
-//
-//    while !queue.isEmpty {
-//        let node = queue.remove(at: 0)
-//        visit(node: node)
-//        node.adjacent.forEach { (child) in
-//            if !child.visited {
-//                visit(node: child)
-//                queue.append(child)
-//            }
-//        }
-//    }
-//}
 
 // Binary Search
 

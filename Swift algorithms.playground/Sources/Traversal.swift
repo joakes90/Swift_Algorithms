@@ -86,3 +86,41 @@ public class Tree<T: Hashable> {
         return rootNode
     }
 }
+
+
+// Depth first
+public class Graph<T: Hashable> {
+ 
+    let root: Node<T>
+    
+    public init(root: Node<T>) {
+        self.root = root
+    }
+    
+    // Searching a graph depth first
+    func depthFirstSearch<T>(node: Node<T>) {
+        node.visit()
+        root.adjacent.forEach { (node) in
+            if !node.visited {
+                node.visit()
+            }
+        }
+    }
+    
+    // Searching a graph breadth first
+    func breadthFirstSearch<T>(root: Node<T>)  {
+        var queue = [Node<T>]()
+        queue.append(root)
+    
+        while !queue.isEmpty {
+            let node = queue.remove(at: 0)
+            node.visit()
+            node.adjacent.forEach { (child) in
+                if !child.visited {
+                    child.visit()
+                    queue.append(child)
+                }
+            }
+        }
+    }
+}
