@@ -1,5 +1,7 @@
 import Foundation
 
+// Result Types
+    // A good exmple of genarics in practice
 public class ResultTests {
 
     var fixedLengthArray = Array<Int?>(repeating: nil, count: 17)
