@@ -112,3 +112,15 @@ public class MergeSort {
         }
     }
 }
+
+public class BubbleSort {
+    public static func sort<T: Comparable>(items: inout [T]) {
+        for _ in 0..<items.count {
+            for j in 0..<(items.count - 1) {
+                if a=items[j] > items[j + 1] {
+                    items.swapAt(j, j + 1)
+                }
+            }
+        }
+    }
+}
